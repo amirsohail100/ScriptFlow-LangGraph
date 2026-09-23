@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -42,4 +44,6 @@ def generate(payload: GenerateRequest):
 
 # Frontend (index.html/style.css/script.js) ko isi FastAPI server se serve karo.
 # Isse ye line hamesha sabse aakhir me honi chahiye, kyunki ye "/" ko catch-all bana deti hai.
-app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")
+STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
+
