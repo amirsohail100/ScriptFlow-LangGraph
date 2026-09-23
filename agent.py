@@ -1,19 +1,11 @@
 import os
-from typing import TypedDict
 
+from state.StatePipeline import PipelineState
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langgraph.graph import StateGraph, START, END
 
 load_dotenv()
-
-
-class PipelineState(TypedDict):
-    raw_input: str
-    edited_text: str
-    script_text: str
-    final_output: str
-
 
 llm = ChatGroq(model="openai/gpt-oss-20b", api_key=os.getenv("GROQ_API_KEY"))
 
