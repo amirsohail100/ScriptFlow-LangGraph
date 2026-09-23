@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from schema.payload import GenerateRequest,GenerateResponse
+
 
 from agent import run_pipeline
 
@@ -15,16 +16,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-class GenerateRequest(BaseModel):
-    raw_input: str
-
-
-class GenerateResponse(BaseModel):
-    edited_text: str
-    script_text: str
-    final_output: str
 
 
 @app.get("/api/health")
