@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script Pipeline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="rack">
+    <header class="rack-head">
+      <span class="tag">PIPELINE</span>
+      <h1>Raw idea in. Hinglish script out.</h1>
+    </header>
+
+    <section class="feed">
+      <label for="rawInput">Input</label>
+      <textarea id="rawInput" rows="4" placeholder="Apna raw idea ya notes yahan likho..."></textarea>
+      <button id="runBtn">
+        <span class="dot"></span>
+        <span id="runBtnLabel">Run pipeline</span>
+      </button>
+      <p id="errorMsg" class="error" role="alert"></p>
+    </section>
+
+    <section class="chain">
+      <article class="stage" id="stage-1" data-state="idle">
+        <div class="stage-marker">
+          <span class="stage-index">01</span>
+          <span class="stage-wire"></span>
+        </div>
+        <div class="stage-body">
+          <h2>Editor</h2>
+          <p class="stage-role">Grammar, typos, flow</p>
+          <div class="stage-output" data-placeholder="Waiting for input"></div>
+        </div>
+      </article>
+
+      <article class="stage" id="stage-2" data-state="idle">
+        <div class="stage-marker">
+          <span class="stage-index">02</span>
+          <span class="stage-wire"></span>
+        </div>
+        <div class="stage-body">
+          <h2>Scriptwriter</h2>
+          <p class="stage-role">Punchy video-script hook</p>
+          <div class="stage-output" data-placeholder="Waiting for stage 01"></div>
+        </div>
+      </article>
+
+      <article class="stage" id="stage-3" data-state="idle">
+        <div class="stage-marker">
+          <span class="stage-index">03</span>
+        </div>
+        <div class="stage-body">
+          <h2>Translator</h2>
+          <p class="stage-role">Natural flowing Hinglish</p>
+          <div class="stage-output" data-placeholder="Waiting for stage 02"></div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
