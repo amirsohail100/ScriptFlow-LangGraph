@@ -1,151 +1,151 @@
-// Updated Clean JS Logic (Without static idle tags)
+// Dynamic Toggle Logic + Execution Pipeline Script
 document.addEventListener('DOMContentLoaded', () => {
-    const pipelineNodes = [
+    // Pipeline Steps Data Structure (Preserving intact)
+    const pipelineSteps = [
         {
-            id: 'input_parser',
-            name: '1. User Input & Intent Parser',
-            icon: 'fa-user-gear',
-            description: 'Receives prompt, parses user intent, and extracts structured metadata.',
-            state: {
-                user_prompt: "Initialize agent pipeline...",
-                intent: "general_query",
-                tokens_estimated: 120
-            }
+            id: 'editor',
+            name: 'Editor',
+            sub: 'Grammar, typos, flow',
+            defaultStateText: 'Waiting for input',
+            process: (input) => `Editor Processed: Cleaned grammar and structural flow for "${input.slice(0, 30)}..."`
         },
         {
-            id: 'retriever_agent',
-            name: '2. Vector Context Retriever',
-            icon: 'fa-database',
-            description: 'Queries vector database (Chroma/FAISS) to fetch relevant grounding context.',
-            state: {
-                chunks_fetched: 3,
-                relevance_score: 0.91,
-                sources: ["vector_store_idx_1", "knowledge_base.pdf"]
-            }
+            id: 'scriptwriter',
+            name: 'Scriptwriter',
+            sub: 'Punchy video-script hook',
+            defaultStateText: 'Waiting for stage 01',
+            process: (input) => `Scriptwriter Output: Created high-hook video script structure from edited text.`
         },
         {
-            id: 'reasoning_engine',
-            name: '3. LangGraph Reasoning Engine',
-            icon: 'fa-brain',
-            description: 'Executes agent graph sequence, evaluates conditional edges, and plans answer.',
-            state: {
-                active_tool: "search_tool",
-                plan_step: "Synthesizing retrieved context",
-                confidence: 0.95
-            }
-        },
-        {
-            id: 'output_formatter',
-            name: '4. Response Formatter & Guardrails',
-            icon: 'fa-check-double',
-            description: 'Applies safety guardrails, validates formatting, and outputs response.',
-            state: {
-                status: "READY",
-                guardrail_check: "PASSED",
-                response_time: "720ms"
-            }
+            id: 'translator',
+            name: 'Translator',
+            sub: 'Natural flowing Hinglish',
+            defaultStateText: 'Waiting for stage 02',
+            process: (input) => `Hinglish Output: "Hey guys! Aaj baat karenge is raw idea ke baare mein..."`
         }
     ];
 
-    let selectedNodeIdx = 0;
-    let isRunning = false;
+    let isExecuting = false;
 
-    initCanvas();
-    renderNodes();
+    // Toggle Dev Options Switches
+    const toggleInspector = document.getElementById('toggle-state-inspector');
+    const toggleLogs = document.getElementById('toggle-logs');
+    const devColumn = document.getElementById('dev-panels-column');
+    const inspectorCard = document.getElementById('state-inspector-card');
+    const logsCard = document.getElementById('logs-card');
+    const layoutGrid = document.getElementById('main-layout-grid');
+    const appContainer = document.querySelector('.app-container');
 
-    const promptInput = document.getElementById('user-prompt-input');
-    const runBtn = document.getElementById('execute-agent-btn');
-    const statusText = document.getElementById('pipeline-status-text');
+    function updateDevVisibility() {
+        const showInspector = toggleInspector.checked;
+        const showLogs = toggleLogs.checked;
 
-    runBtn.addEventListener('click', async () => {
-        if (isRunning) return;
-        const promptText = promptInput.value.trim() || "Analyze agentic workflow execution and optimize response time.";
-
-        isRunning = true;
-        runBtn.disabled = true;
-        runBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Executing Agent...`;
-        statusText.textContent = "Processing";
-
-        pipelineNodes[0].state.user_prompt = promptText;
-        pipelineNodes[0].state.tokens_estimated = Math.floor(promptText.length / 4) + 15;
-
-        addLog('System', `Received user prompt: "${promptText.slice(0, 45)}..."`, 'proc');
-
-        for (let i = 0; i < pipelineNodes.length; i++) {
-            selectedNodeIdx = i;
-            renderNodes(i); // highlight currently executing node
-            addLog(pipelineNodes[i].name, `Executing step: ${pipelineNodes[i].id}`, 'proc');
-
-            await new Promise(r => setTimeout(r, 1100));
-            addLog(pipelineNodes[i].name, `State updated successfully. Payload ready.`, 'succ');
+        if (showInspector || showLogs) {
+            devColumn.classList.remove('hidden');
+            layoutGrid.classList.add('dev-active');
+            appContainer.classList.add('dev-active');
+        } else {
+            devColumn.classList.add('hidden');
+            layoutGrid.classList.remove('dev-active');
+            appContainer.classList.remove('dev-active');
         }
 
-        addLog('System', 'Workflow execution completed successfully!', 'succ');
-        isRunning = false;
-        runBtn.disabled = false;
-        runBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Run Agent Pipeline`;
-        statusText.textContent = "Completed";
-        renderNodes();
-    });
+        if (showInspector) {
+            inspectorCard.classList.remove('hidden');
+        } else {
+            inspectorCard.classList.add('hidden');
+        }
 
-    function renderNodes(executingIdx = -1) {
-        const container = document.getElementById('workflow-nodes-container');
-        container.innerHTML = '';
-
-        pipelineNodes.forEach((node, idx) => {
-            const card = document.createElement('div');
-            let classes = 'node-item';
-            if (idx === selectedNodeIdx) classes += ' selected';
-            if (idx === executingIdx) classes += ' executing';
-
-            card.className = classes;
-            card.innerHTML = `
-                <div class="node-top">
-                    <span class="node-name"><i class="fa-solid ${node.icon}"></i> ${node.name}</span>
-                </div>
-                <div class="node-desc">${node.description}</div>
-            `;
-
-            card.addEventListener('click', () => {
-                selectedNodeIdx = idx;
-                renderNodes(executingIdx);
-            });
-
-            container.appendChild(card);
-
-            if (idx < pipelineNodes.length - 1) {
-                const arrow = document.createElement('div');
-                arrow.className = 'node-arrow';
-                arrow.innerHTML = `<i class="fa-solid fa-arrow-down"></i>`;
-                container.appendChild(arrow);
-            }
-        });
-
-        updateJSONViewer();
+        if (showLogs) {
+            logsCard.classList.remove('hidden');
+        } else {
+            logsCard.classList.add('hidden');
+        }
     }
 
-    function updateJSONViewer() {
-        const viewer = document.getElementById('json-viewer');
-        if (pipelineNodes[selectedNodeIdx]) {
-            viewer.textContent = JSON.stringify(pipelineNodes[selectedNodeIdx].state, null, 2);
-        }
+    toggleInspector.addEventListener('change', updateDevVisibility);
+    toggleLogs.addEventListener('change', updateDevVisibility);
+
+    // Run Pipeline Action
+    const promptInput = document.getElementById('user-input-prompt');
+    const runBtn = document.getElementById('run-pipeline-btn');
+
+    runBtn.addEventListener('click', async () => {
+        if (isExecuting) return;
+        const rawIdea = promptInput.value.trim() || "Mera ek AI agent project hai jise mujhe launch karna hai.";
+
+        isExecuting = true;
+        runBtn.disabled = true;
+        runBtn.innerHTML = `<span class="btn-dot"></span> Processing...`;
+
+        addLog('System', `Running pipeline with raw idea: "${rawIdea.slice(0, 35)}..."`, 'proc');
+
+        // Reset steps UI
+        document.querySelectorAll('.step-card').forEach(card => {
+            card.classList.remove('active', 'completed');
+        });
+
+        // Step 1 Execution
+        await executeStep(1, rawIdea, 'Editor', 'out-step-1');
+        // Step 2 Execution
+        await executeStep(2, rawIdea, 'Scriptwriter', 'out-step-2');
+        // Step 3 Execution
+        await executeStep(3, rawIdea, 'Translator', 'out-step-3');
+
+        addLog('System', 'Pipeline execution completed successfully!', 'succ');
+        isExecuting = false;
+        runBtn.disabled = false;
+        runBtn.innerHTML = `<span class="btn-dot"></span> Run pipeline`;
+    });
+
+    async function executeStep(stepNum, input, name, targetElemId) {
+        const card = document.getElementById(`step-0${stepNum}`);
+        const box = document.getElementById(targetElemId);
+
+        card.classList.add('active');
+        box.textContent = "Processing stage...";
+        updateJSONState(name, stepNum, input, "PROCESSING");
+
+        await new Promise(r => setTimeout(r, 1200));
+
+        const resultText = pipelineSteps[stepNum - 1].process(input);
+        box.textContent = resultText;
+        card.classList.remove('active');
+        card.classList.add('completed');
+
+        updateJSONState(name, stepNum, resultText, "SUCCESS");
+        addLog(name, `Stage 0${stepNum} finished.`, 'succ');
+    }
+
+    function updateJSONState(stage, step, data, status) {
+        const jsonViewer = document.getElementById('state-json-viewer');
+        const stateObj = {
+            current_stage: stage,
+            step_number: step,
+            status: status,
+            payload: data,
+            timestamp: new Date().toISOString()
+        };
+        jsonViewer.textContent = JSON.stringify(stateObj, null, 2);
     }
 
     function addLog(sender, text, type = 'sys') {
         const consoleEl = document.getElementById('logs-container');
         const time = new Date().toTimeString().split(' ')[0];
         const line = document.createElement('div');
-        line.className = `log-line ${type}`;
+        line.className = `log-entry ${type}`;
         line.innerHTML = `<span class="ts">[${time}]</span> <strong>${sender}:</strong> ${text}`;
         consoleEl.appendChild(line);
         consoleEl.scrollTop = consoleEl.scrollHeight;
     }
 
-    document.getElementById('clear-logs').addEventListener('click', () => {
+    document.getElementById('clear-logs-btn').addEventListener('click', () => {
         document.getElementById('logs-container').innerHTML = '';
-        addLog('System', 'Console logs cleared.', 'sys');
+        addLog('System', 'Logs cleared.', 'sys');
     });
 
+    // Ambient Canvas Animation
+    initCanvas();
     function initCanvas() {
         const canvas = document.getElementById('bg-network-canvas');
         if (!canvas) return;
@@ -158,11 +158,11 @@ document.addEventListener('DOMContentLoaded', () => {
             h = canvas.height = window.innerHeight;
         });
 
-        const particles = Array.from({ length: 35 }, () => ({
+        const particles = Array.from({ length: 25 }, () => ({
             x: Math.random() * w,
             y: Math.random() * h,
-            vx: (Math.random() - 0.5) * 0.7,
-            vy: (Math.random() - 0.5) * 0.7
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5
         }));
 
         function draw() {
@@ -174,21 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (p.y < 0 || p.y > h) p.vy *= -1;
 
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
+                ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 107, 53, 0.4)';
                 ctx.fill();
-
-                for (let j = i + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 - dist / 120 * 0.15})`;
-                        ctx.stroke();
-                    }
-                }
             });
             requestAnimationFrame(draw);
         }
