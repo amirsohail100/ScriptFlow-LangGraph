@@ -3,93 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LangChain & LangGraph Agentic Workflow</title>
+    <title>PIPELINE - Raw idea in. Hinglish script out.</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="dark-theme">
-    <!-- Interactive Canvas Background -->
+    <!-- Ambient Dynamic Background Animation -->
     <div class="bg-canvas-wrapper">
         <canvas id="bg-network-canvas"></canvas>
-        <div class="glow-orb orb-top"></div>
-        <div class="glow-orb orb-bottom"></div>
     </div>
 
-    <div class="dashboard-wrapper">
-        <!-- Top Navbar -->
-        <header class="top-navbar">
-            <div class="brand">
-                <div class="brand-logo">
-                    <i class="fa-solid fa-cubes-stacked"></i>
-                </div>
-                <div class="brand-details">
-                    <h2>LangChain & LangGraph Agent</h2>
-                    <span class="status-badge"><span class="pulse-dot"></span> Agentic Sequential Pipeline</span>
-                </div>
+    <div class="app-container">
+        <!-- Header Controls Bar -->
+        <header class="app-header">
+            <div class="brand-tag">
+                <span class="tag-label">PIPELINE</span>
             </div>
-            <div class="nav-actions">
-                <div class="metrics">
-                    <span class="metric-label">Status:</span>
-                    <span class="metric-value" id="pipeline-status-text">Ready</span>
-                </div>
+            <!-- Toggle Switches for Dev Options (Default OFF as requested) -->
+            <div class="toggle-controls">
+                <label class="toggle-switch" title="Toggle State Inspector">
+                    <input type="checkbox" id="toggle-state-inspector">
+                    <span class="slider"></span>
+                    <span class="toggle-label"><i class="fa-solid fa-code"></i> State Inspector</span>
+                </label>
+                <label class="toggle-switch" title="Toggle Execution Logs">
+                    <input type="checkbox" id="toggle-logs">
+                    <span class="slider"></span>
+                    <span class="toggle-label"><i class="fa-solid fa-terminal"></i> Console Logs</span>
+                </label>
             </div>
         </header>
 
-        <!-- User Prompt / Goal Input Section -->
-        <section class="prompt-input-card">
-            <div class="input-header">
-                <label for="user-prompt-input"><i class="fa-solid fa-terminal"></i> Agent Goal / Prompt Input</label>
+        <!-- Main Title -->
+        <h1 class="main-title">Raw idea in. Hinglish script out.</h1>
+
+        <!-- Input Area -->
+        <section class="input-section">
+            <label class="input-label">Input</label>
+            <div class="textarea-container">
+                <textarea id="user-input-prompt" rows="3" placeholder="Apna raw idea ya notes yahan likho..."></textarea>
             </div>
-            <div class="input-box-wrapper">
-                <textarea id="user-prompt-input" rows="2" placeholder="e.g., Analyze market trends for AI startups and generate a summary report..."></textarea>
-                <button id="execute-agent-btn" class="glow-btn">
-                    <i class="fa-solid fa-paper-plane"></i> Run Agent Pipeline
-                </button>
-            </div>
+            <button id="run-pipeline-btn" class="orange-btn">
+                <span class="btn-dot"></span> Run pipeline
+            </button>
         </section>
 
-        <!-- Main Dashboard Layout -->
-        <main class="dashboard-grid">
-            <!-- Workflow Nodes Panel -->
-            <div class="panel workflow-card">
-                <div class="panel-header">
-                    <h3><i class="fa-solid fa-diagram-next"></i> Workflow Nodes</h3>
-                    <span class="badge-count" id="node-count">4 Nodes</span>
-                </div>
-                <div class="panel-body">
-                    <div id="workflow-nodes-container" class="nodes-list">
-                        <!-- Rendered dynamically -->
+        <!-- Dynamic Pipeline Layout Grid -->
+        <div class="pipeline-layout-grid" id="main-layout-grid">
+            <!-- Left Side: Sequential Workflow Steps (Default View matching screenshot) -->
+            <div class="workflow-chain-column">
+                <div class="steps-chain">
+                    <!-- Step 01: Editor -->
+                    <div class="step-card" id="step-01">
+                        <div class="step-header">
+                            <span class="step-num">01</span>
+                            <div class="step-meta">
+                                <h3>Editor</h3>
+                                <p>Grammar, typos, flow</p>
+                            </div>
+                        </div>
+                        <div class="step-box">
+                            <span class="box-text" id="out-step-1">Waiting for input</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 02: Scriptwriter -->
+                    <div class="step-card" id="step-02">
+                        <div class="step-header">
+                            <span class="step-num">02</span>
+                            <div class="step-meta">
+                                <h3>Scriptwriter</h3>
+                                <p>Punchy video-script hook</p>
+                            </div>
+                        </div>
+                        <div class="step-box">
+                            <span class="box-text" id="out-step-2">Waiting for stage 01</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 03: Translator -->
+                    <div class="step-card" id="step-03">
+                        <div class="step-header">
+                            <span class="step-num">03</span>
+                            <div class="step-meta">
+                                <h3>Translator</h3>
+                                <p>Natural flowing Hinglish</p>
+                            </div>
+                        </div>
+                        <div class="step-box">
+                            <span class="box-text" id="out-step-3">Waiting for stage 02</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- State Inspector Panel -->
-            <div class="panel state-card">
-                <div class="panel-header">
-                    <h3><i class="fa-solid fa-code"></i> State Inspector</h3>
-                    <span class="sub-text">Current Selected Node Payload</span>
-                </div>
-                <div class="panel-body">
-                    <div class="json-box">
-                        <pre><code id="json-viewer">// Select a node or enter a prompt to view execution state</code></pre>
+            <!-- Right Side: Dev Panels (Hidden by default, shown when toggled ON) -->
+            <div class="dev-panels-column hidden" id="dev-panels-column">
+                <!-- State Inspector Card -->
+                <div class="dev-card hidden" id="state-inspector-card">
+                    <div class="dev-card-header">
+                        <h4><i class="fa-solid fa-code"></i> State Inspector Payload</h4>
+                    </div>
+                    <div class="dev-card-body">
+                        <pre><code id="state-json-viewer">// State Inspector is active</code></pre>
                     </div>
                 </div>
-            </div>
 
-            <!-- Execution Logs Panel -->
-            <div class="panel logs-card">
-                <div class="panel-header">
-                    <h3><i class="fa-solid fa-list-check"></i> Execution Logs</h3>
-                    <button class="icon-btn" id="clear-logs" title="Clear Console"><i class="fa-solid fa-trash-can"></i></button>
-                </div>
-                <div class="panel-body">
-                    <div id="logs-container" class="logs-console">
-                        <div class="log-line sys"><span class="ts">[00:00:00]</span> Agent engine initialized. Ready for user prompt.</div>
+                <!-- Console Logs Card -->
+                <div class="dev-card hidden" id="logs-card">
+                    <div class="dev-card-header">
+                        <h4><i class="fa-solid fa-list-check"></i> Execution Logs</h4>
+                        <button class="icon-btn" id="clear-logs-btn" title="Clear Logs"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <div class="dev-card-body logs-body" id="logs-container">
+                        <div class="log-entry sys"><span class="ts">[00:00:00]</span> Pipeline initialized.</div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <script src="script.js"></script>
