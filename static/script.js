@@ -1,33 +1,32 @@
-// Dynamic Toggle Logic + Execution Pipeline Script
+// 100% Professional English Execution & Toggle Script
 document.addEventListener('DOMContentLoaded', () => {
-    // Pipeline Steps Data Structure (Preserving intact)
     const pipelineSteps = [
         {
             id: 'editor',
             name: 'Editor',
-            sub: 'Grammar, typos, flow',
+            sub: 'Grammar, typos, and structural flow',
             defaultStateText: 'Waiting for input',
-            process: (input) => `Editor Processed: Cleaned grammar and structural flow for "${input.slice(0, 30)}..."`
+            process: (input) => `Editor Output: Corrected grammar, refined syntax, and optimized structure for "${input.slice(0, 30)}..."`
         },
         {
             id: 'scriptwriter',
             name: 'Scriptwriter',
-            sub: 'Punchy video-script hook',
+            sub: 'Engaging video-script hooks and pacing',
             defaultStateText: 'Waiting for stage 01',
-            process: (input) => `Scriptwriter Output: Created high-hook video script structure from edited text.`
+            process: (input) => `Scriptwriter Output: Generated an engaging video script structure with a captivating hook.`
         },
         {
             id: 'translator',
             name: 'Translator',
-            sub: 'Natural flowing Hinglish',
+            sub: 'Natural conversational tone formatting',
             defaultStateText: 'Waiting for stage 02',
-            process: (input) => `Hinglish Output: "Hey guys! Aaj baat karenge is raw idea ke baare mein..."`
+            process: (input) => `Final Output: "Hello everyone! Today we will discuss this concept in detail..."`
         }
     ];
 
     let isExecuting = false;
 
-    // Toggle Dev Options Switches
+    // Dev Options Toggle Controls
     const toggleInspector = document.getElementById('toggle-state-inspector');
     const toggleLogs = document.getElementById('toggle-logs');
     const devColumn = document.getElementById('dev-panels-column');
@@ -72,15 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     runBtn.addEventListener('click', async () => {
         if (isExecuting) return;
-        const rawIdea = promptInput.value.trim() || "Mera ek AI agent project hai jise mujhe launch karna hai.";
+        const rawIdea = promptInput.value.trim() || "An automated AI agentic workflow pipeline to convert ideas into scripts.";
 
         isExecuting = true;
         runBtn.disabled = true;
         runBtn.innerHTML = `<span class="btn-dot"></span> Processing...`;
 
-        addLog('System', `Running pipeline with raw idea: "${rawIdea.slice(0, 35)}..."`, 'proc');
+        addLog('System', `Executing pipeline with input: "${rawIdea.slice(0, 35)}..."`, 'proc');
 
-        // Reset steps UI
+        // Reset step states
         document.querySelectorAll('.step-card').forEach(card => {
             card.classList.remove('active', 'completed');
         });
@@ -114,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.add('completed');
 
         updateJSONState(name, stepNum, resultText, "SUCCESS");
-        addLog(name, `Stage 0${stepNum} finished.`, 'succ');
+        addLog(name, `Stage 0${stepNum} finished execution.`, 'succ');
     }
 
     function updateJSONState(stage, step, data, status) {
@@ -141,10 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('clear-logs-btn').addEventListener('click', () => {
         document.getElementById('logs-container').innerHTML = '';
-        addLog('System', 'Logs cleared.', 'sys');
+        addLog('System', 'Logs console cleared.', 'sys');
     });
 
-    // Ambient Canvas Animation
+    // Ambient Canvas Background
     initCanvas();
     function initCanvas() {
         const canvas = document.getElementById('bg-network-canvas');
