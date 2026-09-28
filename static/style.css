@@ -1,4 +1,4 @@
-/* Exact Styling matching the Reference Screenshot Design */
+/* Exact Styling matching Reference Screenshot with Professional Styling */
 :root {
     --bg-dark: #0e1117;
     --card-bg: #161b22;
@@ -30,7 +30,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Background particle canvas */
 .bg-canvas-wrapper {
     position: fixed;
     top: 0;
@@ -58,7 +57,6 @@ body {
     transition: max-width 0.3s ease;
 }
 
-/* Header and Toggle Switches */
 .app-header {
     display: flex;
     justify-content: space-between;
@@ -129,7 +127,6 @@ input:checked + .slider:before {
     gap: 0.35rem;
 }
 
-/* Main Heading */
 .main-title {
     font-size: 2.2rem;
     font-weight: 700;
@@ -139,7 +136,6 @@ input:checked + .slider:before {
     margin-bottom: 0.5rem;
 }
 
-/* Input Section */
 .input-section {
     display: flex;
     flex-direction: column;
@@ -197,7 +193,6 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-/* Layout Grid for Pipeline and Optional Dev Panels */
 .pipeline-layout-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -205,7 +200,6 @@ input:checked + .slider:before {
     margin-top: 1.5rem;
 }
 
-/* Expand layout width when dev options are toggled ON */
 .app-container.dev-active {
     max-width: 1300px;
 }
@@ -220,7 +214,6 @@ input:checked + .slider:before {
     }
 }
 
-/* Steps Chain Timeline Layout */
 .steps-chain {
     display: flex;
     flex-direction: column;
@@ -228,7 +221,6 @@ input:checked + .slider:before {
     position: relative;
 }
 
-/* Vertical Connecting Line */
 .steps-chain::before {
     content: "";
     position: absolute;
@@ -312,7 +304,6 @@ input:checked + .slider:before {
     border-color: #2ea043;
 }
 
-/* Dev Panels Column (State Inspector & Logs) */
 .dev-panels-column {
     display: flex;
     flex-direction: column;
